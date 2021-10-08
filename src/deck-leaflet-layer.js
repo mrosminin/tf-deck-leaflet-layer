@@ -5,10 +5,20 @@ import * as L from "leaflet"
 import { Deck } from "@deck.gl/core"
 
 export default class DeckLeafletLayer extends L.Layer {
+  /** @type {HTMLElement | undefined} */
   _container = undefined
+
+  /** @type {Deck | undefined} */
   _deck = undefined
+
+  /** @type {boolean | undefined} */
   _animate = undefined
 
+  /**
+   * @constructor
+   * @param {DeckProps} props
+   * @param {Object} callbacks
+   */
   constructor(props, callbacks) {
     super()
 
@@ -16,6 +26,9 @@ export default class DeckLeafletLayer extends L.Layer {
     this.callbacks = callbacks
   }
 
+  /**
+   * @returns {this}
+   */
   onAdd() {
     this._container = L.DomUtil.create("div")
     this._container.className = "leaflet-layer"
@@ -24,13 +37,17 @@ export default class DeckLeafletLayer extends L.Layer {
       L.DomUtil.addClass(this._container, "leaflet-zoom-animated")
     }
 
-    this.getPane().appendChild(this._container)
+    this.getPane(this.props.pane).appendChild(this._container)
     this._deck = this._createDeckInstance(this._map, this._container, this._deck, this.props)
     this._update()
 
     return this
   }
 
+  /**
+   * @param {L.Map} _map
+   * @returns {this}
+   */
   onRemove(_map) {
     L.DomUtil.remove(this._container)
     this._container = undefined
@@ -41,6 +58,9 @@ export default class DeckLeafletLayer extends L.Layer {
     return this
   }
 
+  /**
+   * @returns {Object}
+   */
   getEvents() {
     const events = {
       viewreset: this._reset,
@@ -59,6 +79,10 @@ export default class DeckLeafletLayer extends L.Layer {
     return events
   }
 
+  /**
+   * @param {DeckProps} props
+   * @returns {void}
+   */
   setProps(props) {
     Object.assign(this.props, props)
 
@@ -67,10 +91,21 @@ export default class DeckLeafletLayer extends L.Layer {
     }
   }
 
+  /**
+   * @param {Object} callbacks
+   * @returns {void}
+   */
   setCallbacks(callbacks) {
     Object.assign(this.callbacks, callbacks)
   }
 
+  /**
+   * @param {L.Map} map
+   * @param {HTMLElement} container
+   * @param {Deck} deck
+   * @param {DeckProps} props
+   * @returns {Deck}
+   */
   _createDeckInstance(map, container, deck, props) {
     if (!deck) {
       const viewState = this._getViewState(map)
@@ -84,6 +119,10 @@ export default class DeckLeafletLayer extends L.Layer {
     return deck
   }
 
+  /**
+   * @param {L.Map} map
+   * @returns {ViewStateProps}
+   */
   _getViewState(map) {
     return {
       longitude: map.getCenter().lng,
@@ -94,6 +133,9 @@ export default class DeckLeafletLayer extends L.Layer {
     }
   }
 
+  /**
+   * @returns {void}
+   */
   _update() {
     if (this._map._animatingZoom) {
       return
@@ -113,6 +155,9 @@ export default class DeckLeafletLayer extends L.Layer {
     this._deck.redraw(false)
   }
 
+  /**
+   * @returns {void}
+   */
   _pauseAnimation() {
     if (this._deck.props._animate) {
       this._animate = this._deck.props._animate
@@ -120,6 +165,9 @@ export default class DeckLeafletLayer extends L.Layer {
     }
   }
 
+  /**
+   * @returns {void}
+   */
   _unpauseAnimation() {
     if (this._animate) {
       this._deck.setProps({ _animate: this._animate })
@@ -127,36 +175,64 @@ export default class DeckLeafletLayer extends L.Layer {
     }
   }
 
+  /**
+   * @returns {void}
+   */
   _reset() {
     this._updateTransform(this._map.getCenter(), this._map.getZoom())
     this._update()
   }
 
+  /**
+   * @returns {void}
+   */
   _onMoveStart() {
     this._pauseAnimation()
   }
 
+  /**
+   * @returns {void}
+   */
   _onMoveEnd() {
     this._update()
     this._unpauseAnimation()
   }
 
+  /**
+   * @returns {void}
+   */
   _onZoomStart() {
     this._pauseAnimation()
   }
 
+  /**
+   * @param {L.ZoomAnimEvent} event
+   * @returns {void}
+   */
   _onAnimZoom(event) {
     this._updateTransform(event.center, event.zoom)
   }
 
+  /**
+   * @returns {void}
+   */
   _onZoom() {
     this._updateTransform(this._map.getCenter(), this._map.getZoom())
   }
 
+  /**
+   * @returns {void}
+   */
   _onZoomEnd() {
     this._unpauseAnimation()
   }
 
+  /**
+   * see https://stackoverflow.com/a/67107000/1823988
+   * see L.Renderer._updateTransform https://github.com/Leaflet/Leaflet/blob/master/src/layer/vector/Renderer.js#L90-L105
+   * @param {L.LatLng} center
+   * @param {number} zoom
+   */
   _updateTransform(center, zoom) {
     const scale = this._map.getZoomScale(zoom, this._map.getZoom())
     const position = L.DomUtil.getPosition(this._container)
@@ -173,6 +249,11 @@ export default class DeckLeafletLayer extends L.Layer {
     }
   }
 
+  /**
+   * calls callbacks.onClick(object)
+   * @param {L.MouseEvent} e
+   * @returns {void}
+   */
   _onMouseClick(e) {
     if (!this.callbacks.hasOwnProperty("onClick")) {
       return
@@ -186,6 +267,11 @@ export default class DeckLeafletLayer extends L.Layer {
     }
   }
 
+  /**
+   * calls callbacks.onHover(object, e)
+   * @param {L.MouseEvent} e
+   * @returns {void}
+   */
   _onMouseMove(e) {
     if (!this.callbacks.hasOwnProperty("onHover")) {
       return
@@ -197,6 +283,10 @@ export default class DeckLeafletLayer extends L.Layer {
     this.callbacks.onHover(dObject ? dObject.object : null, e)
   }
 
+  /**
+   * calls callbacks.onHover(null)
+   * @returns {void}
+   */
   _onMouseOut() {
     if (!this.callbacks.hasOwnProperty("onHover")) {
       return

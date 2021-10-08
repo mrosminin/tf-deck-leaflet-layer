@@ -1,6 +1,6 @@
 {
   "name": "tf-deck-leaflet-layer",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "deck.gl plugin for leaflet",
   "keywords": [
     "deck.gl",
@@ -28,7 +28,7 @@
     "@babel/preset-env": "^7.15.8"
   },
   "scripts": {
-    "compile": "babel src --compact -o index.js",
+    "compile": "babel src --compact --no-comments -o index.js",
     "prepublish": "npm run compile"
   }
 }
