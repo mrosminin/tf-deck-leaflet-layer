@@ -6,9 +6,7 @@ import { Deck } from "@deck.gl/core"
 
 export default class DeckLeafletLayer extends L.Layer {
   _container = undefined
-
   _deck = undefined
-
   _animate = undefined
 
   constructor(props, callbacks) {

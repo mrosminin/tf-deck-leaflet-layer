@@ -1,39 +1,42 @@
-# deck-leaflet-layer
+# tf-deck-leaflet-layer
 
 deck.gl plugin for Leaflet
-
-fork from https://github.com/zakjan/deck.gl-leaflet
 
 
 ## Install
 
 ```
-npm install deck-leaflet-layer
+npm install tf-deck-leaflet-layer
 ```
 
 ## Usage
 
 ```
-import DeckLeafletLayer from 'deck-leaflet-layer';
+import DeckLeafletLayer from "tf-deck-leaflet-layer"
 ```
 
 ```
-const map = L.map(...);
+const map = L.map(...)
 const deckLayer = new DeckLeafletLayer({
   layers: [
-    new PolygonLayer({
+    new ScatterplotLayer({
       data: [...],
     })
   ],
-},
-  callbacks: {
-    onClick: (object) => {
+  pane: "paneName"
+}, {
+  onHover: (object, e) => {...},
+  onClick: (object) => {...} 
+)
 
-    },
-    onHover(object, e) => {
+map.addLayer(deckLayer)
 
-    }
-  }
-}
-map.addLayer(deckLayer);
+```
+
+To update layers
+
+```
+deckPathLayer._deck.setProps({
+    layers: [layer]
+})
 ```

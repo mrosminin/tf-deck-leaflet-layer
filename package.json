@@ -1,0 +1,16 @@
+{
+  "name": "tf-deck-leaflet-layer",
+  "version": "1.0.1",
+  "description": "",
+  "main": "deck-leaflet-layer.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mrosminin/tf-deck-leaflet-layer.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mrosminin/tf-deck-leaflet-layer/issues"
+  },
+  "homepage": "https://github.com/mrosminin/tf-deck-leaflet-layer#readme"
+}
