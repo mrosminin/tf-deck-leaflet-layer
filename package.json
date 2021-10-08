@@ -1,16 +1,24 @@
 {
   "name": "tf-deck-leaflet-layer",
-  "version": "1.0.1",
-  "description": "",
+  "version": "1.0.2",
+  "description": "deck.gl plugin for leaflet",
+  "keywords": [
+    "deck.gl",
+    "leaflet"
+  ],
   "main": "deck-leaflet-layer.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mrosminin/tf-deck-leaflet-layer.git"
   },
-  "author": "",
+  "author": "mrosminin",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mrosminin/tf-deck-leaflet-layer/issues"
   },
-  "homepage": "https://github.com/mrosminin/tf-deck-leaflet-layer#readme"
+  "homepage": "https://github.com/mrosminin/tf-deck-leaflet-layer#readme",
+  "dependencies": {
+    "@deck.gl/core": "^8.5.10",
+    "leaflet": "^1.7.1"
+  }
 }
