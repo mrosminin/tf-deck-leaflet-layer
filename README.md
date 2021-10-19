@@ -1,7 +1,11 @@
 # tf-deck-leaflet-layer
 
-deck.gl plugin for Leaflet
+deck.gl plugin for Leaflet. Fork from deck.gl-leaflet 1.1.2. https://github.com/zakjan/deck.gl-leaflet
 
+## Added
+
+1. А prop "pane" for custom leafletPaneName for the layer
+2. Сallbacks onHover and onClick to pickObject
 
 ## Install
 
