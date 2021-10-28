@@ -20,6 +20,7 @@
   "dependencies": {
     "@deck.gl/core": "^8.6.0",
     "core-js": "^3.18.2",
+    "deck.gl-leaflet": "^1.2.0",
     "leaflet": "^1.7.1"
   },
   "devDependencies": {

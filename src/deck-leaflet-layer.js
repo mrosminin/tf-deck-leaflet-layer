@@ -32,7 +32,6 @@ export default class DeckLeafletLayer extends L.Layer {
   onAdd() {
     this._container = L.DomUtil.create("div")
     this._container.className = "leaflet-layer"
-    this._container.style.pointerEvents = "none"
     if (this._zoomAnimated) {
       L.DomUtil.addClass(this._container, "leaflet-zoom-animated")
     }
